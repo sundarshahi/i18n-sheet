@@ -19,7 +19,7 @@ import { Command } from "./index";
 import { isI18nsheetCompliantSpreadsheet } from "../lib/i18n-sheet-validator";
 
 const GOOGLE_ACCOUNT_SETUP_TUTORIAL_URL =
-  "https://github.com/TheSoftwareHouse/i18n-sheet#-prerequisites";
+  "https://github.com/sundarshahi/i18n-sheet#-prerequisites";
 
 const readLineAsync = () => {
   const rl = readline.createInterface({
