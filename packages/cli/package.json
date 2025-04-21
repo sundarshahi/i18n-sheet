@@ -1,6 +1,6 @@
 {
   "name": "i18n-sheet",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "i18n-sheet CLI",
   "main": "dist/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "i18n"
   ],
   "dependencies": {
-    "i18n-sheet-parser": "^0.0.1",
+    "i18n-sheet-parser": "^0.0.3",
     "googleapis": "^92.0.0",
     "inquirer": "^8.2.0",
     "open": "^8.4.0",

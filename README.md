@@ -70,7 +70,7 @@ If you have `npx` installed, you can run the following command to initialize the
 in your project directory:
 
 ```bash
-npx i18n-sheet-parser init
+npx i18n-sheet init
 ```
 
 ### Global way
@@ -78,14 +78,14 @@ npx i18n-sheet-parser init
 Alternatively, if you don't have `npx` you can install i18n-sheet-parser CLI tool globally:
 
 ```bash
-npm i -G i18n-sheet-parser
+npm i -G i18n-sheet
 ```
 
 ...and then you should be able to execute following command whenever you want to set up i18n-sheet-parser 
 for some of your projects:
 
 ```bash
-i18n-sheet-parser init
+i18n-sheet init
 ```
 
 ### Next steps

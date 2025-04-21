@@ -1,9 +1,10 @@
 {
   "name": "i18n-sheet-parser",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Rx.js observable that parses i18n-sheet-formatted Google Spreadsheet",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "commonjs",
   "scripts": {
     "clean": "rm -Rf ./dist",
     "build": "npm run clean && tsc",

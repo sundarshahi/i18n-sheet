@@ -270,7 +270,7 @@ async function handler() {
   console.log("Installing dev dependencies...");
   await installDependencies([
     { dev: true, packageName: "i18n-sheet-parser" },
-    { dev: true, packageName: "i18n-sheet-json" },
+    { dev: true, packageName: "i18n-json-writer" },
     { dev: true, packageName: "ts-node" },
     { dev: true, packageName: "rxjs" },
   ]);

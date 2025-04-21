@@ -87,9 +87,9 @@ export async function getI18nsheetInitState(): Promise<I18nsheetInitState> {
 
 export async function loadI18nsheetConfig(): Promise<Partial<I18NSheetConfig>> {
   const i18nsheetConfigFilePath = getI18nsheetConfigFilePath();
-  const babelsheetConfigRaw = await fs.readFile(i18nsheetConfigFilePath);
+  const i18nsheetConfigRaw = await fs.readFile(i18nsheetConfigFilePath);
 
-  return JSON.parse(babelsheetConfigRaw.toString());
+  return JSON.parse(i18nsheetConfigRaw.toString());
 }
 
 export async function saveI18nsheetConfig({
