@@ -1,6 +1,6 @@
 {
   "name": "i18n-sheet-json",
-  "version": "0.0.6",
+  "version": "0.0.1",
   "description": "i18n-sheet JSON file writer",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
