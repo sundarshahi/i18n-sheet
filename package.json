@@ -1,0 +1,11 @@
+{
+  "name": "i18n-sheet",
+  "scripts": {
+    "postinstall": "(cd packages/parser/node_modules; ln -sn ../../../node_modules/.bin .bin) || true"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}

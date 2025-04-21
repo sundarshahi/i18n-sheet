@@ -1,0 +1,44 @@
+{
+  "name": "i18n-sheet",
+  "version": "0.0.1",
+  "description": "i18n-sheet CLI",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rm -Rf ./dist",
+    "build": "tsc && cp src/script-template/*.template dist/script-template/",
+    "prepublishOnly": "npm run clean && npm run build",
+    "lint": "eslint --fix src/**/*.ts"
+  },
+  "bin": {
+    "i18n-sheet": "./dist/index.js"
+  },
+  "author": {
+    "name": "Sundar Shahi Thakuri",
+    "url": "https://github.com/sundarshahi",
+    "email": "shahithakurisundar@gmail.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "i18n-sheet",
+    "translations",
+    "i18n"
+  ],
+  "dependencies": {
+    "i18n-sheet-parser": "^0.0.1",
+    "googleapis": "^92.0.0",
+    "inquirer": "^8.2.0",
+    "open": "^8.4.0",
+    "rxjs": "^7.5.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^8.1.3",
+    "@types/node": "^16.11.12",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "google-auth-library": "^7.10.3",
+    "typescript": "^4.5.4"
+  }
+}

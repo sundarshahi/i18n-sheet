@@ -1,0 +1,47 @@
+{
+  "name": "i18n-sheet-parser",
+  "version": "0.0.1",
+  "description": "Rx.js observable that parses i18n-sheet-formatted Google Spreadsheet",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -Rf ./dist",
+    "build": "npm run clean && tsc",
+    "prepublishOnly": "npm run test && npm run build",
+    "test": "ts-node ./node_modules/.bin/tape ./tests/*.test.ts | tap-arc",
+    "lint": "eslint --fix src/**/*.ts"
+  },
+  "keywords": [
+    "i18n-sheet",
+    "translations",
+    "i18n"
+  ],
+ "author": {
+    "name": "Sundar Shahi Thakuri",
+    "url": "https://github.com/sundarshahi",
+    "email": "shahithakurisundar@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@fast-csv/parse": "5.0.2",
+    "@googleapis/drive": "11.0.0",
+    "google-spreadsheet": "^4.1.1",
+    "googleapis": "148.0.0"
+  },
+  "peerDependencies": {
+    "rxjs": ">=6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.2",
+    "@types/tape": "^4.13.2",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3",
+    "tap-arc": "^0.1.2",
+    "tape": "^5.3.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
+  }
+}

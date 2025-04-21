@@ -1,0 +1,24 @@
+import { parseSheet } from 'i18n-sheet-parser';
+import { toJSON } from 'i18n-sheet-json';
+import { groupBy, mergeMap } from 'rxjs/operators';
+import path from 'path';
+
+const projectRoot = path.relative(__dirname, process.cwd());
+const i18nsheetConfig = require(path.join(projectRoot, './i18n.json'));
+
+parseSheet({
+  spreadsheetId: i18nsheetConfig.spreadsheetId,
+  credentials: require(path.join(projectRoot, i18nsheetConfig.credentials)),
+}).pipe(
+  groupBy(
+    ({ language, path }) => `${language}/${path[0]}`,
+    { element: ({ path, ...entry }) => ({ ...entry, path: path.slice(1) }) }
+  ),
+  mergeMap(languageEntries$ => languageEntries$.pipe(
+    toJSON(`{{OUT_DIR_PATH}}${languageEntries$.key}.json`)
+  )),
+).subscribe(
+  ({ filePath, entryCount }) => {
+    console.log(`Wrote file: "${filePath}" with ${entryCount} entries`);
+  }
+);
