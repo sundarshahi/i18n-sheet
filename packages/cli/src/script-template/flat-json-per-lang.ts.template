@@ -1,24 +1,26 @@
-import { parseSheet } from 'i18n-sheet-parser';
-import { toJSON } from 'i18n-json-writer;
-import { groupBy, mergeMap } from 'rxjs/operators';
+import { fileURLToPath } from 'url';
 import path from 'path';
+import { createRequire } from 'module';
+import { parseSheet } from 'i18n-sheet-parser';
+import { toJSON } from 'i18n-json-writer';
+import { groupBy, mergeMap } from 'rxjs/operators';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const require = createRequire(import.meta.url);
 
 const projectRoot = path.relative(__dirname, process.cwd());
+
 const i18nsheetConfig = require(path.join(projectRoot, './i18n-sheet.json'));
 
 parseSheet({
   spreadsheetId: i18nsheetConfig.spreadsheetId,
   credentials: require(path.join(projectRoot, i18nsheetConfig.credentials)),
-}).pipe(
-  groupBy(
-    ({ language }) => language,
-    { element: ({ path, ...entry }) => ({ ...entry, path: path.join(".") }) }
-  ),
-  mergeMap(languageEntries$ => languageEntries$.pipe(
-    toJSON(`{{OUT_DIR_PATH}}${languageEntries$.key}.json`)
-  )),
-).subscribe(
-  ({ filePath, entryCount }) => {
+})
+  .pipe(
+    groupBy(({ language }) => language, { element: ({ path, ...entry }) => ({ ...entry, path: path.join('.') }) }),
+    mergeMap((languageEntries$) => languageEntries$.pipe(toJSON(`./i18n/${languageEntries$.key}.json`))),
+  )
+  .subscribe(({ filePath, entryCount }) => {
     console.log(`Wrote file: "${filePath}" with ${entryCount} entries`);
-  }
-);
+  });

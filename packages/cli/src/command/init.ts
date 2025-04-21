@@ -396,7 +396,7 @@ async function handler() {
 
   await registerScript(
     answers.scriptName,
-    `ts-node -T --skip-project ${answers.scriptPath}`
+    `node --loader ts-node/esm ${answers.scriptPath}`
   );
 
   console.log("\n🎉 i18n-sheet has been successfully initialized! 🎉\n");

@@ -24,7 +24,7 @@
     "i18n"
   ],
   "dependencies": {
-    "i18n-sheet-parser": "^0.0.3",
+    "i18n-sheet-parser": "^0.0.4",
     "googleapis": "^92.0.0",
     "inquirer": "^8.2.0",
     "open": "^8.4.0",
