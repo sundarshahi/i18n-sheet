@@ -1,4 +1,4 @@
-import { promises as fs } from "fs";
+import fs, { promises as fsPromises } from "fs";
 import path from "path";
 import util from "util";
 import { fileExists } from "./file-helpers";
@@ -37,7 +37,7 @@ export async function resolveAppTitle() {
     return undefined;
   }
 
-  const packageJsonBuffer = await fs.readFile(resolvePackageJsonPath());
+  const packageJsonBuffer = await .readFile(resolvePackageJsonPath());
 
   try {
     const parsedPackageJson = JSON.parse(packageJsonBuffer.toString());
@@ -77,8 +77,7 @@ export async function getI18nsheetInitState(): Promise<I18nsheetInitState> {
         boilerplateConfig: i18nsheetConfig.userInput,
       };
     }
-    // eslint-disable-next-line no-empty
-  } catch (error) {}
+  } catch {}
 
   return {
     init: true,
@@ -87,7 +86,7 @@ export async function getI18nsheetInitState(): Promise<I18nsheetInitState> {
 
 export async function loadI18nsheetConfig(): Promise<Partial<I18NSheetConfig>> {
   const i18nsheetConfigFilePath = getI18nsheetConfigFilePath();
-  const i18nsheetConfigRaw = await fs.readFile(i18nsheetConfigFilePath);
+  const i18nsheetConfigRaw = await fsPromises.readFile(i18nsheetConfigFilePath);
 
   return JSON.parse(i18nsheetConfigRaw.toString());
 }
@@ -98,7 +97,7 @@ export async function saveI18nsheetConfig({
   userInput,
   cliVersion,
 }: I18NSheetConfig) {
-  await fs.writeFile(
+  await fsPromises.writeFile(
     I18N_SHEET_CONFIG_FILE_NAME,
     JSON.stringify(
       {
@@ -120,7 +119,7 @@ export async function initPackageJson() {
 
   const proposedPackageName = path.basename(process.cwd());
 
-  await fs.writeFile(
+  await fsPromises.writeFile(
     resolvePackageJsonPath(),
     JSON.stringify(
       {
@@ -143,7 +142,7 @@ export async function listDependencies({
     return [];
   }
 
-  const packageJsonBuffer = await fs.readFile(resolvePackageJsonPath());
+  const packageJsonBuffer = await fsPromises.readFile(resolvePackageJsonPath());
 
   try {
     const parsedPackageJson = JSON.parse(packageJsonBuffer.toString());
@@ -160,11 +159,18 @@ export async function removeDependencies(dependencies: string[]) {
   await exec(`npm remove ${dependencies.join(" ")}`);
 }
 
+function detectPackageManager(): "pnpm" | "yarn" | "npm" {
+  if (fs.existsSync("pnpm-lock.yaml")) return "pnpm";
+  if (fs.existsSync("yarn.lock")) return "yarn";
+  return "npm";
+}
+
 export async function installDependencies(dependencies: DependencyToInstall[]) {
   const existingDeps = await listDependencies();
   const missingDependencies = dependencies.filter(
     ({ packageName }) => !existingDeps.includes(packageName)
   );
+
   const dependencyToString = ({
     packageName,
     version,
@@ -174,16 +180,23 @@ export async function installDependencies(dependencies: DependencyToInstall[]) {
   const deps = missingDependencies
     .filter(({ dev }) => !dev)
     .map(dependencyToString);
+
   const devDeps = missingDependencies
     .filter(({ dev }) => dev)
     .map(dependencyToString);
 
-  if (deps) {
-    await exec(`npm i ${deps.join(" ")}`);
+  const pm = detectPackageManager();
+
+  if (deps.length > 0) {
+    const cmd = `${pm} ${pm === "npm" ? "install" : "add"} ${deps.join(" ")}`;
+    await exec(cmd);
   }
 
-  if (devDeps) {
-    await exec(`npm i -D ${devDeps.join(" ")}`);
+  if (devDeps.length > 0) {
+    const cmd = `${pm} ${pm === "npm" ? "install -D" : "add -D"} ${devDeps.join(
+      " "
+    )}`;
+    await exec(cmd);
   }
 }
 
@@ -193,7 +206,7 @@ export async function registerScript(name: string, command: string) {
   }
 
   const packageJsonPath = resolvePackageJsonPath();
-  const packageJsonContent = await fs
+  const packageJsonContent = await fsPromises
     .readFile(packageJsonPath)
     .then((content) => JSON.parse(content.toString()));
 
@@ -203,7 +216,7 @@ export async function registerScript(name: string, command: string) {
 
   packageJsonContent.scripts[name] = command;
 
-  await fs.writeFile(
+  await fsPromises.writeFile(
     packageJsonPath,
     JSON.stringify(packageJsonContent, null, 2)
   );
@@ -215,7 +228,7 @@ export async function unregisterScript(name: string) {
   }
 
   const packageJsonPath = resolvePackageJsonPath();
-  const packageJsonContent = await fs
+  const packageJsonContent = await fsPromises
     .readFile(packageJsonPath)
     .then((content) => JSON.parse(content.toString()));
 
@@ -225,7 +238,7 @@ export async function unregisterScript(name: string) {
 
   delete packageJsonContent.scripts[name];
 
-  await fs.writeFile(
+  await fsPromises.writeFile(
     packageJsonPath,
     JSON.stringify(packageJsonContent, null, 2)
   );

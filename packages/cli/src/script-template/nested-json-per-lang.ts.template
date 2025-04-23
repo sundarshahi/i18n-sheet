@@ -4,7 +4,7 @@ import { groupBy, mergeMap } from 'rxjs/operators';
 import path from 'path';
 
 const projectRoot = path.relative(__dirname, process.cwd());
-const i18nsheetConfig = require(path.join(projectRoot, './babelsheet.json'));
+const i18nsheetConfig = require(path.join(projectRoot, './i18n-sheet.json'));
 
 parseSheet({
   spreadsheetId: i18nsheetConfig.spreadsheetId,
