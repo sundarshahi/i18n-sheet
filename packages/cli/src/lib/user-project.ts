@@ -37,7 +37,7 @@ export async function resolveAppTitle() {
     return undefined;
   }
 
-  const packageJsonBuffer = await .readFile(resolvePackageJsonPath());
+  const packageJsonBuffer = await fsPromises.readFile(resolvePackageJsonPath());
 
   try {
     const parsedPackageJson = JSON.parse(packageJsonBuffer.toString());
